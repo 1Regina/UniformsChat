@@ -1,0 +1,79 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head> -->
+<!-- <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+<title>Show uniforms</title>
+</head>
+
+<body>
+  <%- include('header') -%>
+
+    <div class="p-5 col-sm-8 text-dark">
+      <h1> <img src="/acsj.png" width="150" height="150" />
+        <%=data[0].school_name%>
+      </h1>
+
+    </div>
+    <div class="center">
+      <div class="col-sm-8" style="padding-bottom: 30px;">
+
+        <table class="table table-md table-striped table-hover  table-bordered ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Type</th>
+              <th scope="col">Size</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Request</th>
+            </tr>
+          </thead>
+          <tbody>
+
+                   <form action="/request" method="POST">
+
+            <%for (let i=0; i< data.length; i+=1) {%>
+              <tr>
+         
+                  <th scope="row">
+                    <%=i+1%>
+                  </th>
+                  <td>
+                    <input type="hidden" value="<%=data[i].type%>" name="type" />
+                    <input type="hidden" value="<%=data[i].uniforms_id%>" name="uniformID" />
+                    <%=data[i].type%>
+                  </td>
+                  <td>
+                    <input type="hidden" value="<%=data[i].size%>" name="size" />
+                    <%=data[i].size%>
+                  </td>
+                  <td>
+                    <input type="hidden" value=<%=data[i].count%> name="quantity"/>
+                    <%=data[i].count%>
+                  </td>
+                  <td>
+                    <div class="form-check">
+
+                      <input class="form-check-input" type="checkbox" value="<%=data[i].donor_id%>, <%=data[i].school_id%>, <%=data[i].uniforms_id%>, <%=data[i].size%>, <%=data[i].count%>" name="requestInfo">
+                      <input type="hidden" value=<%=data[i].school_id%> name="schoolID"/>
+                      <label class="form-check-label" for="request_<%=i%>"> </label>
+                    </div>
+                  </td>
+                  
+            
+              </tr>
+              <% }; %>
+              <button type="submit" class="p-3 btn btn-grad">Submit</button>
+                  </form>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+</body>
+
+</html>

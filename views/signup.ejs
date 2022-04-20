@@ -1,0 +1,70 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head> -->
+<!-- <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+         
+<title>Sign Up</title>
+</head>
+
+<body>
+  <%- include('header') -%>
+  <div class="container">
+    <div class="p-5 col-sm-8 text-dark">
+      <h3>Please join us in our efforts and join as a member</h3><br><br>
+
+      <form action="/signup" method="POST">
+        <label>
+          <h4>
+            <%= "Name" %>
+          </h4>
+        </label><br>
+        <input type="text" name="name" placeholder="your name" required/><br><br>
+        <label>
+          <h4>
+            <%= "Phone" %>
+          </h4>
+        </label><br>
+        <input type="text" name="phone" placeholder="your contact number" minlength="8" maxlength="8" required /><br><br>
+        <label>
+          <h4>
+            <%= "Email Address" %>
+          </h4>
+        </label><br>
+        <input type="text" name="email" placeholder="your email contact" required /><br><br>
+        <label>
+          <h4>
+            <%= "Password" %>
+          </h4>
+        </label><br>
+        <input type="password" name="password" placeholder="password" required /><br><br>
+
+        <label>
+          <h4>
+            <%= "Member Type" %>
+          </h4>
+        </label><br>
+        <div class="input-group mb-3 w-25">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01" >Option</label>
+          </div>
+          <select class="custom-select" id="inputGroupSelect01" name="membership" required>
+            <option selected>Choose...</option>
+            <option value="Donor">Donor</option>
+            <option value="Recipient">Recipient</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+     
+        <!-- <input type="submit" value="Submit"> -->
+        <button type="submit" class="p-3 btn btn-grad" >Submit</button>
+      </form>
+    </div>
+  </div>  
+</body>
+
+</html>

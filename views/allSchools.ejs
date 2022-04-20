@@ -1,0 +1,52 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head> -->
+<!-- <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+<title>Add uniforms</title>
+</head>
+
+<body>
+
+  <%- include('header') -%>
+    <div class="d-flex justify-content-end p-5">
+        <form class="d-flex col-sm-3"  action="/find_school" method="POST">
+        <input class="form-control me-2" type="search" placeholder="Search School" aria-label="Search" name="schoolProxy">
+        <button class="btn btn-sm bg-secondary btn-outline-light" type="submit">Search</button>
+      </form>
+     </div>    
+
+  <div class="container">   
+    <div class="p-1 col-sm-8 text-dark">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12" style="padding-bottom: 30px;">
+            <%let numOfRec=data.length%>
+              <%for (let i=0; i< numOfRec; i+=1) {%>
+                <div class="shadow p-3 mb-5 bg-white rounded">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <% let school=data[i].school_name%>
+                       
+                        <% let url=`/${school}/uniform` %>
+                       <a href="<%=url %>">
+                      <%=school%>
+                      </a>
+                    </div>
+
+                  </div>
+                </div>
+                <% }; %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</body>
+
+</html>

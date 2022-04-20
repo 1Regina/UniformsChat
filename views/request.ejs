@@ -1,0 +1,86 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head> -->
+<!-- <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+<title>Show uniforms</title>
+</head>
+
+<body>
+  <%- include('header') -%>
+  <%=data.message%>
+
+    <form action="/request" method="POST" class=".needs-validation">
+
+      <div class="center">
+        <div class="col-sm-9 shadow rounded" style="padding-bottom: 30px; padding-top: 30px; background-color: whitesmoke">
+
+          <div class="row">
+
+            <div class="col-sm-4">
+              <label for="school" class="form-label ">
+                <h5>School:</h5>
+              </label>
+              <select class="custom-select" id="school" name="school" required>
+                <option selected>Choose...</option>
+                <% data.schools.forEach((school)=> {%>
+                  <option value="<%= school.school_name %>">
+                    <%= school.school_name %>
+                  </option>
+                  <% }); %>
+              </select>
+            </div>
+
+
+            <div class="col-sm-3">
+              <label for="type" class="form-label ">
+                <h5>Type:</h5>
+              </label>
+              <select class="custom-select" id="type" name="type" required>
+                <option selected>Choose...</option>
+                <% data.uniforms.forEach((catalog)=> {%>
+                  <option value="<%= catalog.type %>">
+                    <%= catalog.type %>
+                  </option>
+                  <% }); %>
+              </select>
+            </div>
+
+
+            <div class="col-sm-2">
+              <label for="size">
+                <h5>Size:</h5>
+              </label>
+              <input type="text" class="form-control capitalize" id="size" placeholder="Size" name="size" required>
+              <div class="valid-feedback">Valid.</div>
+              <div class="invalid-feedback">Please fill out this field.</div>
+              </input>
+            </div>
+
+            <div class="col-sm-1">
+              <label for="quantity">
+                <h5>Quantity:</h5>
+              </label>
+              <input type="text" class="form-control" id="quantity" placeholder="Qty" name="quantity" min="1" required>
+              <div class="valid-feedback">Valid.</div>
+              <div class="invalid-feedback">Please fill out this field.</div>
+              </input>
+            </div>
+
+          </div>
+
+          <br>
+          <button type="submit" class="btn btn-secondary">Submit</button>
+
+        </div>
+      </div>
+    </form>
+
+</body>
+
+</html>

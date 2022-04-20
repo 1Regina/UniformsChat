@@ -1,0 +1,95 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head> -->
+<!-- <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+<title>Show uniforms</title>
+</head>
+
+<body>
+  <%- include('header') -%>
+    <%=data.message%>
+
+
+      <!-- <form action="/available/:item_id/:method" method="POST" class=".needs-validation"> -->
+      <form action="/my_donations_available/post_changes" method="POST" class=".needs-validation">
+        <%data.item.forEach((item)=> {%>
+          <div class="container center">
+            <div class="row shadow rounded center"
+              style="padding-bottom: 30px; padding-top: 30px; margin: 50px; background-color: whitesmoke">
+
+              <div class="col-sm-4">
+                <label for="school" class="form-label ">
+                  <h5>School:</h5>
+                </label>
+                <select class="custom-select" id="school" name="school_id" required>
+                  <% data.schools.forEach((school)=> {%>
+                    <%if (school.school_name===data.itemsSchool ){ %>
+                      <option selected value="<%=school.school_id %>">
+                        <%=school.school_name %>
+                      </option>
+                      <%}else{%>
+                        <option value="<%=school.school_id %>">
+                          <%=school.school_name %>
+                        </option>
+                        <%}%>
+                          <% }); %>
+                </select>
+              </div>
+
+
+              <div class="col-sm-3">
+                <label for="type" class="form-label ">
+                  <h5>Type:</h5>
+                </label>
+                <select class="custom-select" id="type" name="uniform_id" required>
+                  <% data.uniforms.forEach((catalog)=> {%>
+                    <%if (catalog.type===data.uniformType ){ %>
+                      <option selected value="<%=catalog.id %>">
+                        <%=catalog.type %>
+                      </option>
+                      <%}else{%>
+                        <option value="<%=catalog.id %>">
+                          <%= catalog.type %>
+                        </option>
+                        <%}%>
+                          <% }); %>
+                </select>
+              </div>
+
+
+              <div class="col-sm-2">
+                <label for="size">
+                  <h5>Size:</h5>
+                </label>
+                <input type="text" class="form-control capitalize" id="size" value=<%=`${item.size}`%>
+                placeholder="Size" name="size" required>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">Please fill out this field.</div>
+                </input>
+              </div>
+
+              <!-- <div class="col-sm-1"> -->
+              <% let update_id=`update_${item.id}` %>
+                <input type="hidden" value="<%=item.id%>" name="inventoryId" />
+
+                <!-- </div> -->
+            </div>
+          </div>
+
+          <%})%>
+            <div class="d-flex justify-content-center">
+              <input type="submit" value="Update" name="op" class="btn btn-primary" />
+              <input type="submit" value="Delete" name="op" class="btn btn-danger" />
+            </div>
+      </form>
+
+
+</body>
+
+</html>

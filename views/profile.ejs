@@ -1,0 +1,74 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head> -->
+<!-- <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+<title>Edit User</title>
+</head>
+
+<body>
+  <%- include('header') -%>
+    <div class="d-flex flex-sm-col" id="profile-wrapper">
+      <div class="col-sm-4 d-flex justify-content-center" style="margin-top: 20px; padding-top: 50px;">
+        <ul>
+          <h3>
+            <%=data.message%>
+          </h3>
+          <br>
+
+          <img class="circular--square" src="<%=data.photo%>" width="280" height="280" />
+
+          <p class="text-muted">
+            <% let url=`/add_photo` %>
+              <a href="<%=url %>" style="color:rgb(37, 27, 3); font-size:18px">
+                <%='update photo'%>
+              </a>
+          </p>
+          <!-- </div> -->
+        </ul>
+      </div>
+
+      <div class="p-5 col-sm-12 col-md-6" style="background-color: whitesmoke; margin-top: 80px ;border-radius: 25px;">
+        <% for (const [key,value] of Object.entries(data)) {%>
+
+          <% if ((key==="name" ) || (key==="email" ) || (key==="phone" )) {%>
+            <ul>
+              <h6>
+                <%=key%>
+              </h6>
+              <p class="text-muted">
+                <%=value%>
+              </p>
+            </ul>
+            <%}%>
+
+              <% if (key==="created_on" ) {%>
+                <ul>
+                  <h6>
+                    <%='Member since' %>
+                  </h6>
+                  <p class="text-muted">
+                    <%=value.toString().substring(0,15)%>
+                  </p>
+                </ul>
+                <%}%>
+
+                  <%}%>
+
+                    <br>
+                    <br>
+
+                    <div class="col">
+                      <% let update_id=`update ${data.id}` %>
+                        <form action="/edit_Profile" method="GET">
+                          <input type="submit" class="p-3 btn btn-grad" value="Update" <%=id=update_id %>/>
+                        </form>
+                    </div>
+      </div>
+</body>
+
+</html>

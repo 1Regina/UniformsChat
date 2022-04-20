@@ -1,0 +1,156 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head> -->
+<!-- <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+<title>Show uniforms</title>
+</head>
+
+<body>
+  <%- include('header') -%>
+
+    <div class="p-5 col-sm-11 text-secondary text-right">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          Arrange By
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="http://localhost:3004/my_requests-sortby/date/asc">Date (Earliest)</a></li>
+          <li><a class="dropdown-item" href="http://localhost:3004/my_requests-sortby/date/desc">Date (Latest)</a></li>
+          <li><a class="dropdown-item" href="http://localhost:3004/my_requests-sortby/type/asc">Type (A-Z)</a></li>
+          <li><a class="dropdown-item" href="http://localhost:3004/my_requests-sortby/type/desc">Type (Z-A)</a></li>
+          <li><a class="dropdown-item" href="http://localhost:3004/my_requests-sortby/quantity/asc">Quantity(Asc)</a></li>
+          <li><a class="dropdown-item" href="http://localhost:3004/my_requests-sortby/quantity/desc">Quantity (Desc)</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="center">
+      <div class="row justify-content-sm-center">
+
+        <div class="col-sm-8" style="padding-bottom: 30px;">
+          <h4>
+            <%='Reserved items' %>
+          </h4>
+          <table class="table table-md table-striped table-hover  table-bordered ">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">School</th>
+                <th scope="col">Type</th>
+                <th scope="col">Size</th>
+                <th scope="col">Status</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Date</th>
+                <th scope="col">Donor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%for (let i=0; i< data.length; i+=1) {%>
+                    <%let chatroomName=`R${data.recipient}D${data[i].donor_id}`%>
+                <form action="/<%=chatroomName%>/chat" method="POST">
+                <%if (data[i].status==='reserved' ) {%>
+                  <tr>
+                    <th scope="row">
+                      <%=i+1%>
+                    </th>
+                    <td>
+                        <input type="hidden" value="<%=data[i].school_name%>" name="schoolName" />
+                      <%=data[i].school_name%>
+                    </td>
+                    <td>
+                       <input type="hidden" value="<%=data[i].type%>" name="type"/>
+                      <%=data[i].type%>
+                    </td>
+                    <td>
+                        <input type="hidden" value="<%=data[i].size%>" name="size" />
+                      <%=data[i].size%>
+                    </td>
+                    <td>
+                        <input type="hidden" value="<%=data[i].status%>" name="status" />
+                      <%=data[i].status%>
+                    </td>
+                    <td>
+                        <input type="hidden" value=<%=data[i].count%> name="quantity"/>
+                      <%=data[i].count%>
+                    </td>
+                    <td>
+                      <input type="hidden" value="<%=data[i].date%>" name="date" />
+                      <%=data[i].date.toString().substring(0,15)%>
+                    </td>
+                      <td>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <%=data[i].donor_id%>     
+                        <% let chat_id=`chat_${i}`%>
+                    
+                          
+                            <input type="hidden" value="<%=chatroomName%>" name="chatroom" id="<%chat_id%>"/>
+                            <input type="submit" value="Chat" name="activateChat" class="btn btn-warning"/>
+                          </form>     
+                          </div>       
+                    </td>
+                  </tr>
+                  <% }; %>
+                    <% }; %>
+            </tbody>
+          </table>
+        </div>
+
+  <div class="col-sm-8" style="padding-bottom: 30px;">
+                    <h4>
+            <%='Collected items' %>
+          </h4>
+          <table class="table table-md table-striped table-hover  table-bordered ">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">School</th>
+                <th scope="col">Type</th>
+                <th scope="col">Size</th>
+                <th scope="col">Status</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%for (let i=0; i< data.length; i+=1) {%>
+                <%if (data[i].status==='collected' ) {%>
+                  <tr>
+                    <th scope="row">
+                      <%=i+1%>
+                    </th>
+                    <td>
+                      <%=data[i].school_name%>
+                    </td>
+                    <td>
+                      <%=data[i].type%>
+                    </td>
+                    <td>
+                      <%=data[i].size%>
+                    </td>
+                    <td>
+                      <%=data[i].status%>
+                    </td>
+                    <td>
+                      <%=data[i].count%>
+                    </td>
+                    <td>
+                      <%=data[i].date.toString().substring(0,15)%>
+                    </td>
+                  </tr>
+                  <% }; %>
+                    <% }; %>
+            </tbody>
+          </table>
+        </div>
+    
+      </div>
+    </div>
+</body>
+
+</html>
