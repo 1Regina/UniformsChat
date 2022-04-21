@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -605,7 +605,7 @@ app.post('/my_donations_available/:setId/edit', async (request, response) => {
     const uniformQuery = 'SELECT * FROM uniforms';
     const uniformResult = await pool.query(uniformQuery);
     data.uniforms = uniformResult.rows;
-    // console.log(data);
+    console.log(data);
     response.render('editItem', { data });
 
     // response.send(data);
@@ -671,10 +671,12 @@ app.post('/my_donations_available/post_changes', async (request, response) => {
 
 app.post('/reserved_collected', async (request, response) => {
   console.log('inside now');
-
+  // let data = {};
   const {
     schoolName, type, size, status, quantity, date,
+    donateSetID, given,
   } = request.body;
+  // data = request.body;
   console.log(schoolName, type, size, status, quantity, date);
   const { userEmail, userID, loggedIn } = request.cookies;
   const formatDate = date.toString().substring(4, 15);
@@ -699,8 +701,20 @@ app.post('/reserved_collected', async (request, response) => {
                            AND uniform_id = ${theUniform.id}
                            AND size = '${size}'`;
     //  AND date LIKE '${formatDate}%'`;
-
     await pool.query(updateItemQuery);
+    const data = {
+      donorID: `${userID}`,
+      donateSetID: `${donateSetID}`,
+      schoolName: `${schoolName}`,
+      schoolID: `${theSchool.school_id}`,
+      type: `${type}`,
+      uniformID: `${theUniform.id}`,
+      size: `${size}`,
+      status: `${status}`,
+      quantity: `${quantity}`,
+      date: `${date}`,
+    };
+    console.log(data);
     response.redirect('/my_donations');
   } catch (err) {
     console.error(err.message);
@@ -897,6 +911,59 @@ app.get('/my_requests', async (request, response) => {
 });
 
 app.get('/my_requests-sortby/:parameter/:sortHow', sortRequests);
+
+app.get('/test', async (request, response) => {
+  const { userEmail, userID, loggedIn } = request.cookies;
+  const testData = {
+    donorID: '1',
+    donateSetID: '13',
+    schoolName: 'Anglo Chinese School Junior',
+    schoolID: '9',
+    type: 'boys_uniform_shirt',
+    uniformID: '1',
+    size: '15',
+    status: 'reserved',
+    quantity: '2',
+    date: 'Thu Mar 31 2022 00:00:00 GMT+0800 (Singapore Standard Time)',
+  };
+
+  const findEveryInvID = `SELECT inventory.id AS inventory_id 
+                          FROM inventory 
+                          WHERE donor_id = ${userID}  
+                          AND school_id = ${testData.schoolID} 
+                          AND uniform_id = ${testData.uniformID}
+                          AND size = '${testData.size}'
+                          AND status = 'reserved'`;
+
+  const foundEveryInvID = await pool.query(findEveryInvID);
+  const inventoryIDdata = foundEveryInvID.rows;
+  console.log(inventoryIDdata);
+  console.log(inventoryIDdata.length);
+
+  const arrayID = inventoryIDdata.map((key) => key.inventory_id);
+
+  console.log('arrayID', arrayID);
+
+  const findDonationReqInfo = `SELECT uniforms.id AS uniformID, 
+                                       inventory.school_id AS schoolID, donor_id, size, status, recipient_id, 
+                                       type, school_name,
+                                       recipient_id
+                                       FROM uniforms 
+                                       INNER JOIN inventory
+                                       ON uniforms.id = inventory.uniform_id
+                                       INNER JOIN schools
+                                       ON schools.school_id = inventory.school_id
+                                       INNER JOIN donation_request
+                                       ON donation_request.inventory_id = inventory.id
+                                       WHERE status='reserved' AND donor_id = ${userID} AND inventory.id IN (${arrayID.join()})
+                                       GROUP BY uniformID, schoolID, donor_id, size, status, recipient_id, 
+                                       type, school_name,
+                                       recipient_id `;
+  const results = await pool.query(findDonationReqInfo);
+  const data = results.rows;
+  console.log(data);
+  response.send(data);
+});
 
 app.post('/:chatroomName/chat', async (request, response) => {
   const { userEmail, userID, loggedIn } = request.cookies;

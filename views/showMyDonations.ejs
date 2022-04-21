@@ -89,8 +89,9 @@
                       </td>
                       <td>
                         <% let given_id=`given ${i}` %>
-
-                          <input type="submit" value="Given" id=<%=given_id %> class="btn btn-warning"/>
+                        <%=`given ${i}`%>
+                         <input type="hidden" value=<%=i%> name="donateSetID"/>
+                          <input type="submit" name="given" value="Given"  id=<%=given_id %> class="btn btn-warning"/>
 
                       </td>
                     </tr>
